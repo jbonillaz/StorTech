@@ -28,30 +28,38 @@
 
 		public function getRoles(){
 
-			$arrData = $this->model->selectRoles();
+			if($_SESSION['permisosMod']['r']){
+				$btnView = '';
+				$btnEdit = '';
+				$btnDelete = '';
+				$arrData = $this->model->selectRoles();
 
-			for ($i=0; $i < count($arrData); $i++) {
+				for ($i=0; $i < count($arrData); $i++) {
 
-				if($arrData[$i]['status'] == 1){
+					if($arrData[$i]['status'] == 1){
+						
+						$arrData[$i]['status'] = '<span class="badge badge-pill badge-success">Activo</span>';
+
+					}else{
 					
-					$arrData[$i]['status'] = '<span class="badge badge-pill badge-success">Activo</span>';
+						$arrData[$i]['status'] = '<span class="badge badge-pill badge-danger">Inactivo</span>';
+					}
 
-				}else{
-				
-					$arrData[$i]['status'] = '<span class="badge badge-pill badge-danger">Inactivo</span>';
+					if($_SESSION['permisosMod']['u']){
+						$btnView = '<button class="btn btn-secondary btn-sm btnPermisosRol" onClick="fntPermisos('.$arrData[$i]['idrol'].')" title="Permisos"><i class="fas fa-key"></i></button>';
+						$btnEdit = '<button class="btn btn-primary btn-sm btnEditRol" onClick="fntEditRol('.$arrData[$i]['idrol'].')" title="Editar"><i class="fas fa-pencil-alt"></i></button>';
+					}
+					
+					if($_SESSION['permisosMod']['d']){
+						$btnDelete = '<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelRol('.$arrData[$i]['idrol'].')" title="Eliminar"><i class="far fa-trash-alt"></i></button>
+					</div>';
+					}
+					$arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
 				}
-
-				$arrData[$i]['options'] = '<div class="text-center">
-				<button class="btn btn-secondary btn-sm btnPermisosRol" onClick="fntPermisos('.$arrData[$i]['idrol'].')" title="Permisos"><i class="fas fa-key"></i></button>
-				<button class="btn btn-primary btn-sm btnEditRol" onClick="fntEditRol('.$arrData[$i]['idrol'].')" title="Editar"><i class="fas fa-pencil-alt"></i></button>
-				<button class="btn btn-danger btn-sm btnDelRol" onClick="fntDelRol('.$arrData[$i]['idrol'].')" title="Eliminar"><i class="far fa-trash-alt"></i></button>
-				</div>';
-
+				echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
+				die();
 			}
-
-			echo json_encode($arrData,JSON_UNESCAPED_UNICODE);
-			die();
 
 			// dep($arrData);
 		}
