@@ -21,6 +21,7 @@
 			$data['page_tag'] = "Dasboard -Tienda Virtual";
 			$data['page_title'] = "dasboard -tienda Virtual";
 			$data['page_name'] = "dashboard";
+			$data['page_functions_js'] = "functions_dashboard.js";
 			$this->views->getView($this,"dashboard",$data);
 		}
 
