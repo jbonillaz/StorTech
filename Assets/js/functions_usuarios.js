@@ -1,4 +1,5 @@
 var tableUsuarios;
+let divLoading = document.querySelector("#divLoading");
 document.addEventListener('DOMContentLoaded', function() {
 
     tableUsuarios = $('#tableUsuarios').dataTable({
@@ -134,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return false;
                 }
             }
-
+            divLoading.style.display = "flex";
             var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             var ajaxUrl = base_url + '/Usuarios/putPerfil';
             var formData = new FormData(formPerfil);
@@ -162,6 +163,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         swal("Error", objData.msg, "error");
                     }
                 }
+                divLoading.style.display = "none";
+                return false;
             }
 
         }
@@ -179,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 swal("Atención", "Todos los campos son obligatorios.", "error");
                 return false;
             }
+            divLoading.style.display = "flex";
             let request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
             let ajaxUrl = base_url + '/Usuarios/putDFical';
             let formData = new FormData(formDataFiscal);
@@ -205,6 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         swal("Error", objData.msg, "error");
                     }
                 }
+                divLoading.style.display = "none";
                 return false;
             }
         }

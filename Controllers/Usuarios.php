@@ -195,6 +195,7 @@
 						$arrResponse = array("status" => false, "msg" => 'No es posible actualizar los datos.');
 					}
 				}
+				// sleep(3);
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);//Devolvemos al JS la informacion en formato js.
 			}
 			// dep($_POST);
@@ -221,6 +222,7 @@
 						$arrResponse = array("status" => false, "msg" => 'No es posible actualizar los datos.');
 					}
 				}
+				// sleep(3);
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);
 			}
 			// dep($_POST);
