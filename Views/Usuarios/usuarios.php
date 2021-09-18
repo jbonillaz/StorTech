@@ -9,7 +9,7 @@
 <main class="app-content">
   <?php 
   // dep($_SESSION['permisos']);
-  dep($_SESSION['permisosMod']);
+  // dep($_SESSION['permisosMod']);
   ?>
   <div class="app-title">
     <div>

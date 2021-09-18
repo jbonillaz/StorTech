@@ -9,10 +9,15 @@
 			if(empty($_SESSION['login'])){
 				header('Location: '.base_url().'/login');
 			}
+			getPermisos(2);
 		}
 
 		public function Roles()
 		{
+			if(empty($_SESSION['permisosMod']['r'])){
+				header("Location:".base_url().'/dashboard');
+			}
+
 			$data['page_id'] = 3;
 			$data['page_tag'] = "Roles Usuario";
 			$data['page_name'] = "rol_usuario";
