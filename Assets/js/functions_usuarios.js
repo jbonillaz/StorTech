@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             [0, "desc"]
         ]
     });
+
     if (document.querySelector("#formUsuario")) {
         var formUsuario = document.querySelector("#formUsuario");
         formUsuario.onsubmit = function(e) {
@@ -88,6 +89,75 @@ document.addEventListener('DOMContentLoaded', function() {
                         formUsuario.reset();
                         swal("Usuarios", objData.msg, "success");
                         tableUsuarios.api().ajax.reload();
+                    } else {
+                        swal("Error", objData.msg, "error");
+                    }
+                }
+            }
+
+        }
+    }
+    // Actualizar perfil de usuario.
+    if (document.querySelector("#formPerfil")) {
+        var formPerfil = document.querySelector("#formPerfil");
+        formPerfil.onsubmit = function(e) {
+            e.preventDefault();
+            var strIdentificacion = document.querySelector('#txtIdentificacion').value;
+            var strNombre = document.querySelector('#txtNombre').value;
+            var strApellido = document.querySelector('#txtApellido').value;
+            var intTelefono = document.querySelector('#txtTelefono').value;
+            var strPassword = document.querySelector('#txtPassword').value;
+            let strPasswordConfirm = document.querySelector('#txtPasswordConfirm').value;
+
+            // Validacion para que los campos no  esten vacios
+            if (strIdentificacion == '' || strApellido == '' || strNombre == '' || intTelefono == '') {
+                swal("Atención", "Todos los campos son obligatorios.", "error");
+                return false;
+            }
+            // Validacion para el cambio de contraseña en el Perfil.
+            if (strPassword != "" || strPasswordConfirm != "") {
+                if (strPassword != strPasswordConfirm) {
+                    swal("Atención", "Las contraseñas no son iguales.", "error");
+                    return false;
+                }
+                if (strPassword.length < 5) {
+                    swal("Atención", "La contraseña debe tener un mínimo de 5 caracteres.", "info");
+                    return false;
+                }
+            }
+
+            //Validacion para los campos del HTML, formulario de crear usuarios, para que se realice el envio de datos correctos.
+            let elementsValid = document.getElementsByClassName("valid");
+            for (let i = 0; i < elementsValid.length; i++) {
+                if (elementsValid[i].classList.contains('is-invalid')) {
+                    swal("Atención", "Por favor verifique los campos en rojo.", "error");
+                    return false;
+                }
+            }
+
+            var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            var ajaxUrl = base_url + '/Usuarios/putPerfil';
+            var formData = new FormData(formPerfil);
+            request.open("POST", ajaxUrl, true);
+            request.send(formData);
+            request.onreadystatechange = function() {
+                if (request.readyState != 4) return;
+                if (request.status == 200) {
+                    var objData = JSON.parse(request.responseText);
+                    if (objData.status) {
+                        $('#modalFormPerfil').modal("hide");
+                        swal({
+                            title: "",
+                            text: objData.msg,
+                            type: "success",
+                            confirmButtonText: "Aceptar",
+                            closeOnConfirm: false,
+                        }, function(isConfirm) {
+                            if (isConfirm) {
+                                location.reload();
+                            }
+                        });
+
                     } else {
                         swal("Error", objData.msg, "error");
                     }
