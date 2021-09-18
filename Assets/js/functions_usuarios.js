@@ -50,50 +50,51 @@ document.addEventListener('DOMContentLoaded', function() {
             [0, "desc"]
         ]
     });
-
-    var formUsuario = document.querySelector("#formUsuario");
-    formUsuario.onsubmit = function(e) {
-        e.preventDefault();
-        var strIdentificacion = document.querySelector('#txtIdentificacion').value;
-        var strNombre = document.querySelector('#txtNombre').value;
-        var strApellido = document.querySelector('#txtApellido').value;
-        var strEmail = document.querySelector('#txtEmail').value;
-        var intTelefono = document.querySelector('#txtTelefono').value;
-        var intTipousuario = document.querySelector('#listRolid').value;
-        var strPassword = document.querySelector('#txtPassword').value;
-        // Validacion para que los campos no  esten vacios
-        if (strIdentificacion == '' || strApellido == '' || strNombre == '' || strEmail == '' || intTelefono == '' || intTipousuario == '') {
-            swal("Atención", "Todos los campos son obligatorios.", "error");
-            return false;
-        }
-        //Validacion para los campos del HTML, formulario de crear usuarios, para que se realice el envio de datos correctos.
-        let elementsValid = document.getElementsByClassName("valid");
-        for (let i = 0; i < elementsValid.length; i++) {
-            if (elementsValid[i].classList.contains('is-invalid')) {
-                swal("Atención", "Por favor verifique los campos en rojo.", "error");
+    if (document.querySelector("#formUsuario")) {
+        var formUsuario = document.querySelector("#formUsuario");
+        formUsuario.onsubmit = function(e) {
+            e.preventDefault();
+            var strIdentificacion = document.querySelector('#txtIdentificacion').value;
+            var strNombre = document.querySelector('#txtNombre').value;
+            var strApellido = document.querySelector('#txtApellido').value;
+            var strEmail = document.querySelector('#txtEmail').value;
+            var intTelefono = document.querySelector('#txtTelefono').value;
+            var intTipousuario = document.querySelector('#listRolid').value;
+            var strPassword = document.querySelector('#txtPassword').value;
+            // Validacion para que los campos no  esten vacios
+            if (strIdentificacion == '' || strApellido == '' || strNombre == '' || strEmail == '' || intTelefono == '' || intTipousuario == '') {
+                swal("Atención", "Todos los campos son obligatorios.", "error");
                 return false;
             }
-        }
-
-        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        var ajaxUrl = base_url + '/Usuarios/setUsuario';
-        var formData = new FormData(formUsuario);
-        request.open("POST", ajaxUrl, true);
-        request.send(formData);
-        request.onreadystatechange = function() {
-            if (request.readyState == 4 && request.status == 200) {
-                var objData = JSON.parse(request.responseText);
-                if (objData.status) {
-                    $('#modalFormUsuario').modal("hide");
-                    formUsuario.reset();
-                    swal("Usuarios", objData.msg, "success");
-                    tableUsuarios.api().ajax.reload();
-                } else {
-                    swal("Error", objData.msg, "error");
+            //Validacion para los campos del HTML, formulario de crear usuarios, para que se realice el envio de datos correctos.
+            let elementsValid = document.getElementsByClassName("valid");
+            for (let i = 0; i < elementsValid.length; i++) {
+                if (elementsValid[i].classList.contains('is-invalid')) {
+                    swal("Atención", "Por favor verifique los campos en rojo.", "error");
+                    return false;
                 }
             }
-        }
 
+            var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            var ajaxUrl = base_url + '/Usuarios/setUsuario';
+            var formData = new FormData(formUsuario);
+            request.open("POST", ajaxUrl, true);
+            request.send(formData);
+            request.onreadystatechange = function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    var objData = JSON.parse(request.responseText);
+                    if (objData.status) {
+                        $('#modalFormUsuario').modal("hide");
+                        formUsuario.reset();
+                        swal("Usuarios", objData.msg, "success");
+                        tableUsuarios.api().ajax.reload();
+                    } else {
+                        swal("Error", objData.msg, "error");
+                    }
+                }
+            }
+
+        }
     }
 }, false);
 
@@ -106,16 +107,18 @@ window.addEventListener('load', function() {
 }, false);
 
 function fntRolesUsuario() {
-    var ajaxUrl = base_url + '/Roles/getSelectRoles';
-    var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-    request.open("GET", ajaxUrl, true);
-    request.send();
+    if (document.querySelector('#listRolid')) {
+        var ajaxUrl = base_url + '/Roles/getSelectRoles';
+        var request = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+        request.open("GET", ajaxUrl, true);
+        request.send();
 
-    request.onreadystatechange = function() {
-        if (request.readyState == 4 && request.status == 200) {
-            document.querySelector('#listRolid').innerHTML = request.responseText;
-            // document.querySelector('#listRolid').value = 1;
-            $('#listRolid').selectpicker('render');
+        request.onreadystatechange = function() {
+            if (request.readyState == 4 && request.status == 200) {
+                document.querySelector('#listRolid').innerHTML = request.responseText;
+                // document.querySelector('#listRolid').value = 1;
+                $('#listRolid').selectpicker('render');
+            }
         }
     }
 
@@ -229,7 +232,6 @@ function fntDelUsuario(idpersona) {
 
 }
 
-
 function openModal() {
     document.querySelector('#idUsuario').value = "";
     document.querySelector('.modal-header').classList.replace("headerUpdate", "headerRegister");
@@ -238,4 +240,8 @@ function openModal() {
     document.querySelector('#titleModal').innerHTML = "Nuevo Usuario";
     document.querySelector("#formUsuario").reset();
     $('#modalFormUsuario').modal('show');
+}
+// Funcion que ejecuta el modal para editar perfil.
+function openModalPerfil() {
+    $('#modalFormPerfil').modal('show');
 }

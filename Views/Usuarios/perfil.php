@@ -1,6 +1,6 @@
 <?php
   headerAdmin($data);
-//   getModal('modalPerfil',$data);
+  getModal('modalPerfil',$data);//Llamado al modal para editar perfil
  ?>
 <main class="app-content">
   <div class="row user">
@@ -55,7 +55,7 @@
                 </tr>
               </tbody>
             </table>
-            
+
           </div>
         </div>
         <div class="tab-pane fade" id="user-settings">
