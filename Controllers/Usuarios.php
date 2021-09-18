@@ -106,11 +106,11 @@
 				}
 				if($_SESSION['permisosMod']['w']){
 					if(($_SESSION['idUser'] == 1 and $_SESSION['userData']['idrol'] == 1) ||
-							($_SESSION['userData']['idrol'] == 1 and $arrData[$i]['idrol'] != 1) ){
-								$btnEdit = '<button class="btn btn-primary  btn-sm btnEditUsuario" onClick="fntEditUsuario('.$arrData[$i]['idpersona'].')" title="Editar usuario"><i class="fas fa-pencil-alt"></i></button>';
-							}else{
-								$btnEdit = '<button class="btn btn-secondary btn-sm" disabled ><i class="fas fa-pencil-alt"></i></button>';
-							}
+						($_SESSION['userData']['idrol'] == 1 and $arrData[$i]['idrol'] != 1) ){
+							$btnEdit = '<button class="btn btn-primary  btn-sm btnEditUsuario" onClick="fntEditUsuario(this,'.$arrData[$i]['idpersona'].')" title="Editar usuario"><i class="fas fa-pencil-alt"></i></button>';
+						}else{
+							$btnEdit = '<button class="btn btn-secondary btn-sm" disabled ><i class="fas fa-pencil-alt"></i></button>';
+						}
 					
 				}
 				if($_SESSION['permisosMod']['d']){
