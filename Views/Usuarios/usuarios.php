@@ -8,14 +8,16 @@
 
 <main class="app-content">
   <?php 
-  dep($_SESSION['permisos']);
+  // dep($_SESSION['permisos']);
   dep($_SESSION['permisosMod']);
   ?>
   <div class="app-title">
     <div>
         <h1>
           <i class="fa fa-user-tag"></i> <?= $data['page_title']?>
-          <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-square"></i> Nuevo</button>
+          <?php if($_SESSION['permisosMod']['w']){ ?>
+            <button class="btn btn-primary" type="button" onclick="openModal();"><i class="fas fa-plus-square"></i> Nuevo</button>
+          <?php } ?>
         </h1>
       
     </div>
