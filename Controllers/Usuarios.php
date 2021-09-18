@@ -113,7 +113,14 @@
 					
 				}
 				if($_SESSION['permisosMod']['d']){
-					$btnDelete = '<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['idpersona'].')" title="Eliminar usuario"><i class="far fa-trash-alt"></i></button>';
+					if(($_SESSION['idUser'] == 1 and $_SESSION['userData']['idrol'] == 1) ||
+							($_SESSION['userData']['idrol'] == 1 and $arrData[$i]['idrol'] != 1) and
+							($_SESSION['userData']['idpersona'] != $arrData[$i]['idpersona'] )){
+								$btnDelete = '<button class="btn btn-danger btn-sm btnDelUsuario" onClick="fntDelUsuario('.$arrData[$i]['idpersona'].')" title="Eliminar usuario"><i class="far fa-trash-alt"></i></button>';
+							}else{
+								$btnDelete = '<button class="btn btn-secondary btn-sm" disabled ><i class="far fa-trash-alt"></i></button>';
+							}
+					
 				}
 
 				$arrData[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
