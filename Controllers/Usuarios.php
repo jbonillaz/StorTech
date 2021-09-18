@@ -26,6 +26,7 @@
 			$this->views->getView($this,"usuarios",$data);
             
 		}
+		// Metodo para editar usuarios.
 		public function setUsuario(){
 			if($_POST){
 				// Validacion de datos del formaulario
@@ -79,6 +80,7 @@
 						$arrResponse = array("status" => false, "msg" => 'No es posible almacenar los datos.');
 					}
 				}
+				// sleep(3);
 				echo json_encode($arrResponse,JSON_UNESCAPED_UNICODE);//Convertimos en formato json
 			}
 			die();
